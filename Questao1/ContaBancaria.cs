@@ -4,7 +4,7 @@ namespace Questao1;
 
 public class ContaBancaria
 {
-    public int Numero { get; private set; }
+    public int Numero { get; init; }
     public string Titular { get; private set; }
     public double Saldo { get; private set; }
 
@@ -12,24 +12,23 @@ public class ContaBancaria
     {
         Numero = numero;
         Titular = titular;
-        Saldo = 0.0;
+        Saldo = 0;
     }
 
     public ContaBancaria(int numero, string titular, double depositoInicial) 
         : this(numero, titular)
     {
-        Deposito(depositoInicial);
+        Saldo = depositoInicial;
     }
+
+    public void AtualizarTitular(string novoTitular)
+        => Titular = novoTitular;
 
     public void Deposito(double quantia)
-    {
-        Saldo += quantia;
-    }
+        => Saldo += quantia;
 
     public void Saque(double quantia)
-    {
-        Saldo -= quantia + 5.0;
-    }
+        => Saldo -= quantia + 3.5;
 
     public override string ToString()
     {
