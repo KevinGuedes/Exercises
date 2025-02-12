@@ -2,6 +2,7 @@
 using MediatR.Pipeline;
 using Questao5.Application.Abstractions;
 using Questao5.Application.Common.Errors;
+using Questao5.Application.Errors;
 
 namespace Questao5.Application.RequestPipeline;
 

@@ -1,4 +1,6 @@
 using Dapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Questao5.Application.RequestPipeline;
 using Questao5.Domain.Interfaces;
 using Questao5.Infrastructure.Database.Repositories;
@@ -9,19 +11,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
-builder.Services.AddMediatR(cfg =>
-    cfg
-        .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
-        .AddOpenBehavior(typeof(ValidationBehavior<,>))
-);
+
+builder.Services
+    .AddMediatR(cfg =>
+        cfg
+            .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
+            .AddOpenBehavior(typeof(ValidationBehavior<,>))
+    )
+    .AddFluentValidationClientsideAdapters()
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 SqlMapper.AddTypeHandler(new GuidTypeHandler());
 builder.Services
     .AddSingleton(new DatabaseConfig { ConnectionString = builder.Configuration.GetConnectionString("Database")! })
     .AddScoped<ISqlConnectionManager, SqlConnectionManager>()
-    .AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
-
-builder.Services
+    .AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>()
     .AddScoped<IIdempotencyRepository, IdempotencyRepository>()
     .AddScoped<IAccountRepository, AccountRepository>()
     .AddScoped<ITransferRepository, TransferRepository>();

@@ -41,7 +41,8 @@ public sealed class ValidationBehavior<TRequest, TResponse>(
             return await next();
 
         var badRequestResponse = new TResponse();
-        var badRequestErrorResult = Result.Fail(new BadRequestError(validationErrors));
+        var error = new BadRequestError(validationErrors);
+        var badRequestErrorResult = Result.Fail(error);
         badRequestResponse.Reasons.AddRange(badRequestErrorResult.Reasons);
         return badRequestResponse;
     }

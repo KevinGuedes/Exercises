@@ -9,6 +9,20 @@ public sealed class AccountRepository(ISqlConnectionManager sqlConnectionManager
 {
     private readonly ISqlConnectionManager _sqlConnectionManager = sqlConnectionManager;
 
+    public Task<bool> ExistsByIdAsync(Guid accountId)
+    {
+        const string sql = @"
+            SELECT 
+                COUNT(1) 
+            FROM 
+                contacorrente
+            WHERE 
+                idcontacorrente = @AccountId
+        ";
+        using var connection = _sqlConnectionManager.GetConnection();
+        return connection.ExecuteScalarAsync<bool>(sql, new { AccountId = accountId });
+    }
+
     public Task<Account?> GetByIdAsync(Guid accountId)
     {
         const string sql = @"
@@ -24,7 +38,7 @@ public sealed class AccountRepository(ISqlConnectionManager sqlConnectionManager
         ";
 
         using var connection = _sqlConnectionManager.GetConnection();
-        return connection.QueryFirstOrDefaultAsync<Account>(sql, new { AccountId = accountId.ToString() });
+        return connection.QueryFirstOrDefaultAsync<Account>(sql, new { AccountId = accountId });
     }
 
     public Task<decimal> GetBalanceAsync(Guid accountId)
@@ -33,12 +47,14 @@ public sealed class AccountRepository(ISqlConnectionManager sqlConnectionManager
             SELECT 
                 COALESCE(SUM(CASE WHEN tipomovimento = 'C' THEN valor ELSE 0 END), 0) -
                 COALESCE(SUM(CASE WHEN tipomovimento = 'D' THEN valor ELSE 0 END), 0) 
-            FROM movimento
-            WHERE idcontacorrente = @AccountId
+            FROM 
+                movimento
+            WHERE 
+                idcontacorrente = @AccountId
         ";
 
         using var connection = _sqlConnectionManager.GetConnection();
 
-        return connection.ExecuteScalarAsync<decimal>(sql, new { AccountId = accountId.ToString() });
+        return connection.ExecuteScalarAsync<decimal>(sql, new { AccountId = accountId });
     }
 }

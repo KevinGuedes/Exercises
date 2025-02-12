@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Questao5.Application.Common.Errors;
 using Questao5.Application.Common.Responses;
+using Questao5.Application.Errors;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Questao5.Presentation.Controllers;
@@ -53,7 +54,7 @@ public abstract class ApiController(ISender sender) : ControllerBase
         badRequestError
             .ValidationErrors
             .ToList()
-            .ForEach(error => modelStateDictionary.AddModelError(error.PropertyName, error.ErrorMessage));
+            .ForEach(error => modelStateDictionary.AddModelError(error.ErrorCode, error.ErrorMessage));
 
         var validationProblemDetails = ProblemDetailsFactory.CreateValidationProblemDetails(
             HttpContext,
