@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Questao5.Presentation.Controllers;
 
-[SwaggerTag("Transfers management")]
+[SwaggerTag("Transfer management")]
 public class TransferController(ISender sender) : ApiController(sender)
 {
     [HttpPost]

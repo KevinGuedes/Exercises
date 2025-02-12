@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\UseCases\Accounts\GetAccountBalance\" />
     <Folder Include="Domain\Enumerators\" />
     <Folder Include="Domain\Language\" />
     <Folder Include="Infrastructure\Database\CommandStore\Requests\" />

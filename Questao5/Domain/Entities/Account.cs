@@ -2,20 +2,20 @@
 
 public sealed class Account
 {
-    public Guid Id { get; set; }
-    public int Number { get; set; }
-    public string Name { get; set; } = null!;
-    public bool IsActive { get; set; }
+    public Guid Id { get; private set; }
+    public long Number { get; private set; }
+    public string HolderName { get; private set; } = null!;
+    public bool IsActive { get; private set; }
 
     public Account()
     {
     }
 
-    public Account(Guid id, int number, string name, bool isActive)
+    public Account(Guid id, string holderName, bool isActive)
     {
         Id = id;
-        Number = number;
-        Name = name;
+        Number = new Random().Next();
+        HolderName = holderName;
         IsActive = isActive;
     }
 }

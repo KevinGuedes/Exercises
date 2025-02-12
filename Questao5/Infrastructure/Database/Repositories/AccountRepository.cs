@@ -28,7 +28,7 @@ public sealed class AccountRepository(ISqlConnectionManager sqlConnectionManager
         const string sql = @"
             SELECT 
                 idcontacorrente AS Id, 
-                nome AS Name, 
+                nome AS HolderName, 
                 ativo AS IsActive,
                 numero AS Number
             FROM 

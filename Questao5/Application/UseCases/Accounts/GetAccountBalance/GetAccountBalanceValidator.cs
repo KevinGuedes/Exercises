@@ -1,26 +1,16 @@
 ﻿using FluentValidation;
 using Questao5.Domain.Interfaces.Repositories;
 
-namespace Questao5.Application.UseCases.Transfers.RegisterTransfer;
+namespace Questao5.Application.UseCases.Accounts.GetAccountBalance;
 
-public sealed class RegisterTransferValidator : AbstractValidator<RegisterTransferCommand>
+public sealed class GetAccountBalanceValidator : AbstractValidator<GetAccountBalanceQuery>
 {
     private readonly IAccountRepository _accountRepository;
 
-    public RegisterTransferValidator(IAccountRepository accountRepository)
+    public GetAccountBalanceValidator(IAccountRepository accountRepository)
     {
         _accountRepository = accountRepository;
         ClassLevelCascadeMode = CascadeMode.Stop;
-
-        RuleFor(command => command.Type)
-            .Matches("C|D")
-            .WithErrorCode("INVALID_TYPE")
-            .WithMessage("The type must be 'C' or 'D'.");
-
-        RuleFor(command => command.Value)
-            .GreaterThanOrEqualTo(0)
-            .WithErrorCode("INVALID_VALUE")
-            .WithMessage("The value must be greater than or equal to zero.");
 
         RuleFor(command => command.AccountId)
             .MustAsync(async (accountId, _) =>
