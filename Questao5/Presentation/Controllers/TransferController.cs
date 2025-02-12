@@ -19,6 +19,6 @@ public class TransferController(ISender sender) : ApiController(sender)
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(command, cancellationToken);
-        return ProcessResult(result, true);
+        return ProcessResult(result);
     }
 }

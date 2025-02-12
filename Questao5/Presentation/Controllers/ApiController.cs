@@ -17,17 +17,7 @@ public abstract class ApiController(ISender sender) : ControllerBase
     protected readonly ISender _sender = sender;
 
     protected ObjectResult ProcessResult<TResponse>(Result<TResponse> result, bool hasEntityBeenCreated = false)
-    {
-        if (result.IsFailed)
-            return HandleFailureResult(result.Errors);
-
-        return hasEntityBeenCreated ?
-            StatusCode(StatusCodes.Status201Created, result.Value) :
-            Ok(result.Value);
-    }
-
-    protected IActionResult ProcessResult(Result result)
-        => result.IsSuccess ? NoContent() : HandleFailureResult(result.Errors);
+        => result.IsFailed ? HandleFailureResult(result.Errors) : Ok(result.Value);
 
     protected ObjectResult HandleFailureResult(IEnumerable<IError> errors)
         => HandleFailureResult(errors.FirstOrDefault());
