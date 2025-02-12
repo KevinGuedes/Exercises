@@ -9,7 +9,7 @@ namespace Questao5.Application.UseCases.Transfers.RegisterTransfer;
 public sealed class RegisterTransferHandler(
     ITransferRepository transferRepository,
     IIdempotencyRepository idempotencyRepository,
-    ISerializerService serializerService) 
+    ISerializerService serializerService)
     : ICommandHandler<RegisterTransferCommand, RegisterTransferResponse>
 {
     private readonly ITransferRepository _transferRepository = transferRepository;
@@ -27,9 +27,9 @@ public sealed class RegisterTransferHandler(
         }
 
         var transfer = new Transfer(
-            command.AccountId, 
+            command.AccountId,
             command.Date,
-            command.Type, 
+            command.Type,
             command.Value);
 
         await _transferRepository.InsertAsync(transfer);

@@ -7,7 +7,10 @@ public sealed class Account
     public string HolderName { get; private set; } = null!;
     public bool IsActive { get; private set; }
 
-    public Account()
+    /// <summary>
+    /// Parameterless constructor required for ORM
+    /// </summary>
+    private Account()
     {
     }
 

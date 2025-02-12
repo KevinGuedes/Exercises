@@ -17,7 +17,7 @@ public sealed class ValidationBehavior<TRequest, TResponse>(
     private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
 
     public async Task<TResponse> Handle(
-        TRequest request, 
+        TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {

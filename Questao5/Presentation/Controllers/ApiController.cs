@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Questao5.Application.Common.Errors;
 using Questao5.Application.Common.Responses;
-using Questao5.Application.Errors;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Questao5.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/problem+json")]
 [SwaggerResponse(StatusCodes.Status500InternalServerError, "Backend went rogue", typeof(ProblemResponse))]
 public abstract class ApiController(ISender sender) : ControllerBase
 {
@@ -37,8 +37,6 @@ public abstract class ApiController(ISender sender) : ControllerBase
         {
             BadRequestError badRequest
                 => BuildValidationProblemResponse(badRequest),
-            EntityNotFoundError entityNotFoundError
-                => BuildProblemResponse(StatusCodes.Status404NotFound, entityNotFoundError),
             InternalServerError internalServerError
                 => BuildProblemResponse(StatusCodes.Status500InternalServerError, internalServerError),
             null

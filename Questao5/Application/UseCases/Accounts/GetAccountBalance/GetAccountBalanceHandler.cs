@@ -4,7 +4,7 @@ using Questao5.Domain.Interfaces.Repositories;
 
 namespace Questao5.Application.UseCases.Accounts.GetAccountBalance;
 
-public sealed class GetAccountBalanceHandler(IAccountRepository accountRepository) 
+public sealed class GetAccountBalanceHandler(IAccountRepository accountRepository)
     : IQueryHandler<GetAccountBalanceQuery, GetAccountBalanceResponse>
 {
     private readonly IAccountRepository _accountRepository = accountRepository;

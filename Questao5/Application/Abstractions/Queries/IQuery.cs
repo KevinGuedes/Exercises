@@ -1,6 +1,5 @@
 ﻿using FluentResults;
 using MediatR;
-using Questao5.Application.Abstractions.Queries;
 
 namespace Questao5.Application.Abstractions.Queries;
 
