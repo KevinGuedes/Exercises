@@ -8,15 +8,15 @@ public sealed class Account
     public bool IsActive { get; private set; }
 
     /// <summary>
-    /// Parameterless constructor required for ORM
+    /// Parameterless constructor required for ORM and fakers
     /// </summary>
     private Account()
     {
     }
 
-    public Account(Guid id, string holderName, bool isActive)
+    public Account(string holderName, bool isActive)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Number = new Random().Next();
         HolderName = holderName;
         IsActive = isActive;
