@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Questao5.Domain.Entities;
-using Questao5.Domain.Interfaces;
+using Questao5.Domain.Interfaces.Repositories;
 using Questao5.Infrastructure.Sqlite;
 
 namespace Questao5.Infrastructure.Database.Repositories;
@@ -20,7 +20,7 @@ public sealed class IdempotencyRepository(ISqlConnectionManager sqlConnectionMan
         await connection.ExecuteAsync(sql, idempotency);
     }
 
-    public Task<Idempotency?> GetByKeyAsync(string key)
+    public Task<Idempotency?> GetByKeyAsync(Guid key)
     {
         const string sql = @"
             SELECT 

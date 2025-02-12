@@ -1,6 +1,6 @@
 ﻿using Questao5.Domain.Entities;
 
-namespace Questao5.Domain.Interfaces;
+namespace Questao5.Domain.Interfaces.Repositories;
 
 public interface ITransferRepository
 {

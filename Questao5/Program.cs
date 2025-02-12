@@ -2,7 +2,9 @@ using Dapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Questao5.Application.RequestPipeline;
-using Questao5.Domain.Interfaces;
+using Questao5.Application.Services;
+using Questao5.Domain.Interfaces.Repositories;
+using Questao5.Domain.Interfaces.Services;
 using Questao5.Infrastructure.Database.Repositories;
 using Questao5.Infrastructure.Sqlite;
 using System.Reflection;
@@ -28,7 +30,8 @@ builder.Services
     .AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>()
     .AddScoped<IIdempotencyRepository, IdempotencyRepository>()
     .AddScoped<IAccountRepository, AccountRepository>()
-    .AddScoped<ITransferRepository, TransferRepository>();
+    .AddScoped<ITransferRepository, TransferRepository>()
+    .AddSingleton<ISerializerService, SerializerService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

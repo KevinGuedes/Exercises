@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Questao5.Domain.Interfaces;
+using Questao5.Domain.Interfaces.Repositories;
 
 namespace Questao5.Application.UseCases.Transfers.RegisterTransfer;
 
