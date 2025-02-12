@@ -1,7 +1,6 @@
-﻿namespace Questao5.Infrastructure.Sqlite
+﻿namespace Questao5.Infrastructure.Sqlite;
+
+public interface IDatabaseBootstrap
 {
-    public interface IDatabaseBootstrap
-    {
-        void Setup();
-    }
+    void Setup();
 }
