@@ -4,7 +4,8 @@ using NSubstitute;
 using Questao5.Application.UseCases.Accounts.GetAccountBalance;
 using Questao5.Domain.Entities;
 using Questao5.Domain.Interfaces.Repositories;
-using Questao5.UnitTests.Extensions;
+using Questao5.TestCommon.Extensions;
+using Questao5.TestCommon.TestData;
 
 namespace Questao5.UnitTests.UseCases.Accounts.GetAccountBalance;
 
@@ -23,19 +24,8 @@ public sealed class GetAccountBalanceValidatorTest
     public async Task ShouldReturnValidResult_WhenAccountExistsAndIsActive()
     {
         // Arrange
-        var query = new Faker<GetAccountBalanceQuery>()
-            .UsePrivateConstructor()
-            .RuleFor(query => query.AccountId, f => f.Random.Guid())
-            .Generate();
-
-        var account = new Faker<Account>()
-            .UsePrivateConstructor()
-            .RuleFor(account => account.Id, _ => query.AccountId)
-            .RuleFor(account => account.Number, f => f.Random.Number(1000, 9999))
-            .RuleFor(account => account.HolderName, f => f.Person.FullName)
-            .RuleFor(account => account.IsActive, _ => true)
-            .Generate();
-
+        var account = AccountTestData.CreateActiveAccount(false);
+        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id, false);
         _accountRepository.ExistsByIdAsync(query.AccountId).Returns(true);
         _accountRepository.GetByIdAsync(query.AccountId).Returns(account);
 
@@ -50,12 +40,9 @@ public sealed class GetAccountBalanceValidatorTest
     public async Task ShouldReturnInvalidAccountCode_WhenAccountDoesNotExists()
     {
         // Arrange
-        var query = new Faker<GetAccountBalanceQuery>()
-            .UsePrivateConstructor()
-            .RuleFor(query => query.AccountId, f => f.Random.Guid())
-            .Generate();
-
+        var query = AccountTestData.CreateGetAccountBalanceQueryForInvalidAccount();
         _accountRepository.ExistsByIdAsync(query.AccountId).Returns(false);
+
         // Act
         var result = await _validator.TestValidateAsync(query);
 
@@ -69,19 +56,8 @@ public sealed class GetAccountBalanceValidatorTest
     public async Task ShouldReturnInactiveAccountCode_WhenAccountIsNotActive()
     {
         // Arrange
-        var query = new Faker<GetAccountBalanceQuery>()
-            .UsePrivateConstructor()
-            .RuleFor(query => query.AccountId, f => f.Random.Guid())
-            .Generate();
-
-        var account = new Faker<Account>()
-            .UsePrivateConstructor()
-            .RuleFor(account => account.Id, _ => query.AccountId)
-            .RuleFor(account => account.Number, f => f.Random.Number(1000, 9999))
-            .RuleFor(account => account.HolderName, f => f.Person.FullName)
-            .RuleFor(account => account.IsActive, _ => false)
-            .Generate();
-
+        var account = AccountTestData.CreateInactiveAccount(false);
+        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id, false);
         _accountRepository.ExistsByIdAsync(query.AccountId).Returns(true);
         _accountRepository.GetByIdAsync(query.AccountId).Returns(account);
 

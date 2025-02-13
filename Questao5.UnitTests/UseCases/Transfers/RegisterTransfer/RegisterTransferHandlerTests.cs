@@ -4,7 +4,8 @@ using Questao5.Application.UseCases.Transfers.RegisterTransfer;
 using Questao5.Domain.Entities;
 using Questao5.Domain.Interfaces.Repositories;
 using Questao5.Domain.Interfaces.Services;
-using Questao5.UnitTests.Extensions;
+using Questao5.TestCommon.Extensions;
+using Questao5.TestCommon.TestData;
 
 namespace Questao5.UnitTests.UseCases.Transfers.RegisterTransfer;
 
@@ -14,7 +15,6 @@ public sealed class RegisterTransferHandlerTests
     private readonly ITransferRepository _transferRepository;
     private readonly IIdempotencyRepository _idempotencyRepository;
     private readonly ISerializerService _serializerService;
-    private static readonly string[] _validTransferTypes = ["C", "D"];
 
     public RegisterTransferHandlerTests()
     {
@@ -32,22 +32,8 @@ public sealed class RegisterTransferHandlerTests
     public async Task ShouldReturnValidResult_WhenTransferIsRegistered()
     {
         // Arrange
-        var account = new Faker<Account>()
-            .UsePrivateConstructor()
-            .RuleFor(account => account.Id, f => f.Random.Guid())
-            .RuleFor(account => account.Number, f => f.Random.Number(1000, 9999))
-            .RuleFor(account => account.HolderName, f => f.Person.FullName)
-            .RuleFor(account => account.IsActive, _ => true)
-            .Generate();
-
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, _ => account.Id)
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
+        var account = AccountTestData.CreateActiveAccount(false);
+        var command = TransferTestData.CreateRegisterTransferCommand(account.Id, false);
 
         var transfer = new Transfer(
             command.AccountId,
@@ -96,14 +82,7 @@ public sealed class RegisterTransferHandlerTests
     public async Task ShouldReturnResultStoredInIdempotency_WhenHandlingCommandWithExistingKey()
     {
         // Arrange
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, f => f.Random.Guid())
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
+        var command = TransferTestData.CreateRegisterTransferCommand(null, false);
 
         var response = new RegisterTransferResponse(
             Guid.NewGuid(),

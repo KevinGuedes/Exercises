@@ -1,10 +1,9 @@
-﻿using Bogus;
-using FluentValidation.TestHelper;
+﻿using FluentValidation.TestHelper;
 using NSubstitute;
 using Questao5.Application.UseCases.Transfers.RegisterTransfer;
 using Questao5.Domain.Entities;
 using Questao5.Domain.Interfaces.Repositories;
-using Questao5.UnitTests.Extensions;
+using Questao5.TestCommon.TestData;
 
 namespace Questao5.UnitTests.UseCases.Transfers.RegisterTransfer;
 
@@ -12,8 +11,7 @@ public sealed class RegisterTransferValidatorTests
 {
     private readonly IAccountRepository _accountRepository;
     private readonly RegisterTransferValidator _validator;
-    private static readonly string[] _validTransferTypes = ["C", "D"];
-    private static readonly string[] _invalidTransferTypes = ["A", "B"];
+    
 
     public RegisterTransferValidatorTests()
     {
@@ -25,22 +23,8 @@ public sealed class RegisterTransferValidatorTests
     public async Task ShouldReturnValidResult_WhenCommandHasValidData()
     {
         //Arrange
-        var account = new Faker<Account>()
-            .UsePrivateConstructor()
-            .RuleFor(account => account.Id, f => f.Random.Guid())
-            .RuleFor(account => account.Number, f => f.Random.Number(1000, 9999))
-            .RuleFor(account => account.HolderName, f => f.Person.FullName)
-            .RuleFor(account => account.IsActive, _ => true)
-            .Generate();
-
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, _ => account.Id)
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
+        var account = AccountTestData.CreateActiveAccount(false);
+        var command = TransferTestData.CreateRegisterTransferCommand(account.Id, false);
 
         var transfer = new Transfer(
             command.AccountId,
@@ -62,15 +46,7 @@ public sealed class RegisterTransferValidatorTests
     public async Task ShouldReturnInvalidTypeCode_WhenTypeIsNotCOrD()
     {
         //Arrange
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, f => f.Random.Guid())
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_invalidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
-
+        var command = TransferTestData.CreateRegisterTransferCommandWithInvalidType();
         _accountRepository.ExistsByIdAsync(command.AccountId).Returns(true);
 
         //Act
@@ -86,14 +62,7 @@ public sealed class RegisterTransferValidatorTests
     public async Task ShouldReturnInvalidValueCode_WhenValueIsLowerThanZero()
     {
         //Arrange
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, f => f.Random.Guid())
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(-1000, -1))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
+        var command = TransferTestData.CreateRegisterTransferCommandWithInvalidValue();
         _accountRepository.ExistsByIdAsync(command.AccountId).Returns(true);
 
         //Act
@@ -109,15 +78,7 @@ public sealed class RegisterTransferValidatorTests
     public async Task ShouldReturnInvalidAccountCode_WhenAccountDoesNotExist()
     {
         //Arrange
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, f => f.Random.Guid())
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
-
+        var command = TransferTestData.CreateRegisterTransferCommandWithInvalidAccount();
         _accountRepository.ExistsByIdAsync(command.AccountId).Returns(false);
 
         //Act
@@ -133,23 +94,8 @@ public sealed class RegisterTransferValidatorTests
     public async Task ShouldReturnInactiveAccountCode_WhenAccountIsNotActive()
     {
         //Arrange
-        var command = new Faker<RegisterTransferCommand>()
-            .UsePrivateConstructor()
-            .RuleFor(command => command.AccountId, f => f.Random.Guid())
-            .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
-            .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .Generate();
-
-        var account = new Faker<Account>()
-            .UsePrivateConstructor()
-            .RuleFor(account => account.Id, _ => command.AccountId)
-            .RuleFor(account => account.Number, f => f.Random.Number(1000, 9999))
-            .RuleFor(account => account.HolderName, f => f.Person.FullName)
-            .RuleFor(account => account.IsActive, _ => false)
-            .Generate();
-
+        var account = AccountTestData.CreateInactiveAccount();
+        var command = TransferTestData.CreateRegisterTransferCommand(account.Id, false);
         _accountRepository.ExistsByIdAsync(command.AccountId).Returns(true);
         _accountRepository.GetByIdAsync(command.AccountId).Returns(account);
 

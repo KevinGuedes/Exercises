@@ -1,8 +1,8 @@
 ﻿using Bogus;
 
-namespace Questao5.UnitTests.Extensions;
+namespace Questao5.TestCommon.Extensions;
 
-internal static class BogusExtensions
+public static class BogusExtensions
 {
     public static Faker<T> UsePrivateConstructor<T>(this Faker<T> faker) where T : class
     {
