@@ -24,11 +24,8 @@ public sealed class TransferControllerTests(ApplicationFactory factory)
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
 
         Assert.NotNull(payload);
+        Assert.NotEqual(payload.Id, Guid.Empty);
         await VerifyResponsePayloadAsync(httpResponse);
-
-        Assert.Equal(request.AccountId, payload.AccountId);
-        Assert.Equal(request.Value, payload.Value);
-        Assert.Equal(request.Type, payload.Type);
     }
 
     [Fact]

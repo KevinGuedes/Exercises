@@ -34,12 +34,7 @@ public sealed class RegisterTransferHandlerTests
         // Arrange
         var account = AccountTestData.CreateActiveAccount(false);
         var command = TransferTestData.CreateRegisterTransferCommand(account.Id, false);
-
-        var transfer = new Transfer(
-            command.AccountId,
-            command.Date,
-            command.Type,
-            command.Value);
+        var transfer = TransferTestData.CreateCreditTransferForAccount(account.Id, false);
 
         _idempotencyRepository.GetByKeyAsync(command.Key).Returns((Idempotency)null!);
         _transferRepository.InsertAsync(Arg.Any<Transfer>()).Returns(Task.CompletedTask);
@@ -54,20 +49,13 @@ public sealed class RegisterTransferHandlerTests
 
         var response = result.Value;
 
-        Assert.Equal(transfer.AccountId, response.AccountId);
-        Assert.Equal(transfer.Value, response.Value);
-        Assert.Equal(transfer.Type, response.Type);
-
         _serializerService
             .Received(1)
             .Serialize(command);
 
         _serializerService
             .Received(1)
-            .Serialize(Arg.Is<RegisterTransferResponse>(r =>
-                r.AccountId == transfer.AccountId &&
-                r.Value == transfer.Value &&
-                r.Type == transfer.Type));
+            .Serialize(Arg.Any<RegisterTransferResponse>());
 
         await _transferRepository
             .Received(1)
@@ -83,12 +71,7 @@ public sealed class RegisterTransferHandlerTests
     {
         // Arrange
         var command = TransferTestData.CreateRegisterTransferCommand(null, false);
-
-        var response = new RegisterTransferResponse(
-            Guid.NewGuid(),
-            command.AccountId,
-            command.Value,
-            command.Type);
+        var response = new RegisterTransferResponse(Guid.NewGuid());
 
         var idempotency = new Idempotency(
             command.Key,
@@ -103,10 +86,6 @@ public sealed class RegisterTransferHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
-
-        Assert.Equal(command.AccountId, response.AccountId);
-        Assert.Equal(command.Value, response.Value);
-        Assert.Equal(command.Type, response.Type);
 
         await _idempotencyRepository
             .Received(requiredNumberOfCalls: 1)

@@ -20,13 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Enumerators\" />
-    <Folder Include="Domain\Language\" />
-    <Folder Include="Infrastructure\Database\CommandStore\Requests\" />
-    <Folder Include="Infrastructure\Database\CommandStore\Responses\" />
-    <Folder Include="Infrastructure\Database\QueryStore\Requests\" />
-    <Folder Include="Infrastructure\Database\QueryStore\Responses\" />
-    <Folder Include="Infrastructure\Services\" />
     <Folder Include="Presentation\Middlewares\" />
   </ItemGroup>
 

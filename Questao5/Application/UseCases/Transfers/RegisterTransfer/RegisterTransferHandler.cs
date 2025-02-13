@@ -34,11 +34,7 @@ public sealed class RegisterTransferHandler(
 
         await _transferRepository.InsertAsync(transfer);
 
-        var response = new RegisterTransferResponse(
-            transfer.Id,
-            transfer.AccountId,
-            transfer.Value,
-            transfer.Type);
+        var response = new RegisterTransferResponse(transfer.Id);
 
         var newIdempotency = new Idempotency(
             command.Key,

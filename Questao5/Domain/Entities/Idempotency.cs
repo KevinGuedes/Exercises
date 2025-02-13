@@ -3,8 +3,8 @@
 public sealed class Idempotency
 {
     public Guid Key { get; private set; }
-    public string Request { get; private set; }
-    public string Result { get; private set; }
+    public string Request { get; private set; } = null!;
+    public string Result { get; private set; } = null!;
 
     /// <summary>
     /// Parameterless constructor required for ORM and fakers
