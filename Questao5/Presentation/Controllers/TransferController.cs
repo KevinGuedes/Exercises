@@ -11,7 +11,7 @@ public class TransferController(ISender sender) : ApiController(sender)
 {
     [HttpPost]
     [SwaggerOperation(Summary = "Registers a new Transfer")]
-    [SwaggerResponse(StatusCodes.Status201Created, "Transfer registered", typeof(RegisterTransferResponse))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Transfer registered", typeof(RegisterTransferResponse))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid payload", typeof(ValidationProblemResponse))]
     public async Task<IActionResult> RegisterTransfersAsync(
         [FromBody] [SwaggerRequestBody("Transfer's payload", Required = true)]
