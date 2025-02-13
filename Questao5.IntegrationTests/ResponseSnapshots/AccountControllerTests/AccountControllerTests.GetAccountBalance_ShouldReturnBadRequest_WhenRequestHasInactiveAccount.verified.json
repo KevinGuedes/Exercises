@@ -1,0 +1,12 @@
+﻿{
+  "title": "One or more validation errors occurred.",
+  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+  "status": 400,
+  "detail": "Invalid payload data, check the errors for more information",
+  "instance": "/api/account/95c69371-b924-6fe3-7c38-98b7dd200bc1/Balance",
+  "errors": {
+    "INACTIVE_ACCOUNT": [
+      "The account is inactive."
+    ]
+  }
+}
