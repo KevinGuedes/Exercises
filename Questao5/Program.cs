@@ -26,8 +26,8 @@ builder.Services
 SqlMapper.AddTypeHandler(new GuidTypeHandler());
 builder.Services
     .AddSingleton(new DatabaseConfig { ConnectionString = builder.Configuration.GetConnectionString("Database")! })
-    .AddScoped<ISqlConnectionManager, SqlConnectionManager>()
     .AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>()
+    .AddScoped<ISqlConnectionManager, SqlConnectionManager>()
     .AddScoped<IIdempotencyRepository, IdempotencyRepository>()
     .AddScoped<IAccountRepository, AccountRepository>()
     .AddScoped<ITransferRepository, TransferRepository>()
@@ -55,3 +55,5 @@ app.MapControllers();
 app.Services.GetService<IDatabaseBootstrap>()!.Setup();
 
 app.Run();
+
+public partial class Program { }

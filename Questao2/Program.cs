@@ -37,9 +37,9 @@ public class Program
     }
 
     private static async Task<int> GetGoalsByTeamAsync(
-        HttpClient client, 
-        string team, 
-        int year, 
+        HttpClient client,
+        string team,
+        int year,
         bool isHomeTeam)
     {
         var totalGoals = 0;
@@ -48,7 +48,7 @@ public class Program
         var playingAs = isHomeTeam ? "team1" : "team2";
 
         var uriBuilder = new UriBuilder("https://jsonmock.hackerrank.com/api/football_matches");
-        
+
         var query = HttpUtility.ParseQueryString(string.Empty);
         query.Set("year", year.ToString());
         query.Set(playingAs, team);

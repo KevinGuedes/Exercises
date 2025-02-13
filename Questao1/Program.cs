@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Questao1 {
-    class Program {
-        static void Main(string[] args) {
+namespace Questao1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
 
             ContaBancaria conta;
 
@@ -13,12 +16,14 @@ namespace Questao1 {
             string titular = Console.ReadLine();
             Console.Write("Haverá depósito inicial (s/n)? ");
             char resp = char.Parse(Console.ReadLine());
-            if (resp == 's' || resp == 'S') {
+            if (resp == 's' || resp == 'S')
+            {
                 Console.Write("Entre o valor de depósito inicial: ");
                 double depositoInicial = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
                 conta = new ContaBancaria(numero, titular, depositoInicial);
             }
-            else {
+            else
+            {
                 conta = new ContaBancaria(numero, titular);
             }
 
