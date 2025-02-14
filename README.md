@@ -1,16 +1,17 @@
 # Questao 5
 This is a .NET API designed to handle financial transfers and account balance queries. It provides two main endpoints: one for registering transfers and another for retrieving the account balance. The API is built with modern practices and technologies, ensuring reliability, scalability, and maintainability.
 
-# Features
+# Features & Highlights
 * Register Transfers: Allows registering financial transfers with validation for account status, type, and value.
 * Account Balance: Retrieves the current balance of an account.
 * Idempotency: The Register Transfer endpoint is idempotent, ensuring repeated requests do not impact the financial balance of the account.
-* Comprehensive Error Handling: Detailed error responses for invalid inputs or account issues.
+* Comprehensive Error Handling: Detailed error responses for invalid inputs or account issues following standards standards from [Problem Details for HTTP APIs - RFC7807](https://datatracker.ietf.org/doc/html/rfc7807#section-3)
 * Swagger Documentation: Fully documented API endpoints for easy testing and integration.
 * Integration and Unit Tests: Thorough test coverage for endpoints, services, validators, and handlers.
+* Global Exception Handling: Centralized exception handling for consistent error responses.
 
 # Technologies
-* .NET 8: The API is built on the latest Long-Term Support (LTS) version of .NET.
+* .NET 8: The API has been upgraded to the latest Long-Term Support (LTS) version of .NET.
 * Dapper: Used for efficient database access and query execution.
 * CQRS: Implements the Command Query Responsibility Segregation pattern for better separation of concerns.
 * Mediator: MediatR library is used to implement the mediator pattern for handling requests and commands.
@@ -18,7 +19,6 @@ This is a .NET API designed to handle financial transfers and account balance qu
 * NSubstitute: Used for mocking dependencies in unit tests.
 
 # Endpoints
-
 1. Register Transfer
 * Endpoint: POST /api/transfers
 * Description: Registers a financial transfer for a specific account.
