@@ -7,12 +7,15 @@ using Questao5.Domain.Interfaces.Repositories;
 using Questao5.Domain.Interfaces.Services;
 using Questao5.Infrastructure.Database.Repositories;
 using Questao5.Infrastructure.Sqlite;
+using Questao5.Presentation.Middlewares;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddProblemDetails();
+builder.Services
+    .AddProblemDetails()
+    .AddExceptionHandler<GlobalExceptionHandlerMiddleware>();
 
 builder.Services
     .AddMediatR(cfg =>
@@ -49,6 +52,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

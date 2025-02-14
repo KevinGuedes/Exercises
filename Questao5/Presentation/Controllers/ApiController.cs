@@ -76,7 +76,7 @@ public abstract class ApiController(ISender sender) : ControllerBase
         var problemDetails = ProblemDetailsFactory.CreateProblemDetails(
             HttpContext,
             statusCode: statusCode,
-            detail: "MyFinance API went rogue! Sorry!",
+            detail: "Financial API went rogue! Sorry!",
             instance: HttpContext.Request.Path);
 
         return new(new ProblemResponse(problemDetails))
