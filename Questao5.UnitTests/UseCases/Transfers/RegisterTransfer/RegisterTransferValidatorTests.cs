@@ -84,7 +84,7 @@ public sealed class RegisterTransferValidatorTests
         //Assert
         result.ShouldHaveValidationErrorFor(command => command.Key)
             .WithErrorCode("INVALID_KEY")
-            .WithErrorMessage("The key must not be empty.");
+            .WithErrorMessage("The key must not be empty or default Guid's value.");
     }
 
     [Fact]

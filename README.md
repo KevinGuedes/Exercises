@@ -40,6 +40,7 @@ This is a .NET API designed to handle financial transfers and account balance qu
         * `INVALID_ACCOUNT`: Account does not exist.
         * `INACTIVE_ACCOUNT`: Account is not active.
         * `INVALID_VALUE`: Value is less than or equal to zero.
+        * `INVALID_KEY`: Key is empty or is the default Guid value.
 
 2. Get Account Balance
 * Endpoint: GET /api/accounts/{accountId}/balance

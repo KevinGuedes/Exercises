@@ -25,7 +25,7 @@ public sealed class RegisterTransferValidator : AbstractValidator<RegisterTransf
         RuleFor(command => command.Key)
             .NotEmpty()
             .WithErrorCode("INVALID_KEY")
-            .WithMessage("The key must not be empty.");
+            .WithMessage("The key must not be empty or default Guid's value.");
 
         RuleFor(command => command.AccountId)
             .MustAsync(async (accountId, _) =>
