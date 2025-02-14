@@ -68,7 +68,7 @@ public sealed class RegisterTransferValidatorTests
         //Assert
         result.ShouldHaveValidationErrorFor(command => command.Value)
             .WithErrorCode("INVALID_VALUE")
-            .WithErrorMessage("The value must be greater than or equal to zero.");
+            .WithErrorMessage("The value must be greater than zero.");
     }
 
     [Fact]

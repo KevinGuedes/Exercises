@@ -6,7 +6,7 @@
   "instance": "/api/transfer",
   "errors": {
     "INVALID_VALUE": [
-      "The value must be greater than or equal to zero."
+      "The value must be greater than zero."
     ]
   }
 }

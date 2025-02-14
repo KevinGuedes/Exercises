@@ -18,9 +18,9 @@ public sealed class RegisterTransferValidator : AbstractValidator<RegisterTransf
             .WithMessage("The type must be 'C' or 'D'.");
 
         RuleFor(command => command.Value)
-            .GreaterThanOrEqualTo(0)
+            .GreaterThan(0)
             .WithErrorCode("INVALID_VALUE")
-            .WithMessage("The value must be greater than or equal to zero.");
+            .WithMessage("The value must be greater than zero.");
 
         RuleFor(command => command.Key)
             .NotEmpty()
