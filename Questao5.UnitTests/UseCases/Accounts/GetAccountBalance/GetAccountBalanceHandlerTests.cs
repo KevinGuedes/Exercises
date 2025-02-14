@@ -1,9 +1,6 @@
-﻿using Bogus;
-using NSubstitute;
+﻿using NSubstitute;
 using Questao5.Application.UseCases.Accounts.GetAccountBalance;
-using Questao5.Domain.Entities;
 using Questao5.Domain.Interfaces.Repositories;
-using Questao5.TestCommon.Extensions;
 using Questao5.TestCommon.TestData;
 
 namespace Questao5.UnitTests.UseCases.Accounts.GetAccountBalance;

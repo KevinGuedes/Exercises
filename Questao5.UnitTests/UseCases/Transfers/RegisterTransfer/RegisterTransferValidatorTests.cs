@@ -11,7 +11,7 @@ public sealed class RegisterTransferValidatorTests
 {
     private readonly IAccountRepository _accountRepository;
     private readonly RegisterTransferValidator _validator;
-    
+
 
     public RegisterTransferValidatorTests()
     {

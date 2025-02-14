@@ -11,7 +11,7 @@ public static class TransferTestData
     public static readonly string[] InvalidTransferTypes = ["A", "B"];
 
     public static RegisterTransferCommand CreateRegisterTransferCommand(
-        Guid? accountId, 
+        Guid? accountId,
         bool useDefaultSeed = true)
     {
         accountId ??= Guid.NewGuid();
@@ -30,7 +30,7 @@ public static class TransferTestData
         return faker.Generate();
     }
 
-    public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidType() 
+    public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidType()
         => new Faker<RegisterTransferCommand>()
             .UsePrivateConstructor()
             .RuleFor(command => command.AccountId, f => f.Random.Guid())

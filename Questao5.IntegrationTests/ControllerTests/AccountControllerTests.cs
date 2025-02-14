@@ -24,7 +24,7 @@ public sealed class AccountControllerTests(ApplicationFactory factory)
         //Assert
         Assert.True(httpResponse.IsSuccessStatusCode);
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-        
+
         Assert.NotNull(payload);
         await VerifyResponsePayloadAsync(httpResponse);
 

@@ -1,10 +1,8 @@
-﻿using Bogus;
-using NSubstitute;
+﻿using NSubstitute;
 using Questao5.Application.UseCases.Transfers.RegisterTransfer;
 using Questao5.Domain.Entities;
 using Questao5.Domain.Interfaces.Repositories;
 using Questao5.Domain.Interfaces.Services;
-using Questao5.TestCommon.Extensions;
 using Questao5.TestCommon.TestData;
 
 namespace Questao5.UnitTests.UseCases.Transfers.RegisterTransfer;
