@@ -135,6 +135,11 @@ public sealed class RegisterTransferValidatorTests
             .WithErrorCode("INVALID_TYPE")
             .WithErrorMessage("The type must be 'C' or 'D'.");
 
+        result.ShouldNotHaveValidationErrorFor(command => command.Value);
+        result.ShouldNotHaveValidationErrorFor(command => command.AccountId);
+        result.ShouldNotHaveValidationErrorFor(command => command.Date);
+        result.ShouldNotHaveValidationErrorFor(command => command.Key);
+
         await _accountRepository //CascadeMode.Stop avoids unecessary calls to database
             .DidNotReceive()
             .ExistsByIdAsync(Arg.Any<Guid>());
