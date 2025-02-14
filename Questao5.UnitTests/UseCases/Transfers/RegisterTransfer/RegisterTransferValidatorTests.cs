@@ -12,7 +12,6 @@ public sealed class RegisterTransferValidatorTests
     private readonly IAccountRepository _accountRepository;
     private readonly RegisterTransferValidator _validator;
 
-
     public RegisterTransferValidatorTests()
     {
         _accountRepository = Substitute.For<IAccountRepository>();
@@ -47,7 +46,6 @@ public sealed class RegisterTransferValidatorTests
     {
         //Arrange
         var command = TransferTestData.CreateRegisterTransferCommandWithInvalidType();
-        _accountRepository.ExistsByIdAsync(command.AccountId).Returns(true);
 
         //Act
         var result = await _validator.TestValidateAsync(command);
@@ -63,7 +61,6 @@ public sealed class RegisterTransferValidatorTests
     {
         //Arrange
         var command = TransferTestData.CreateRegisterTransferCommandWithInvalidValue();
-        _accountRepository.ExistsByIdAsync(command.AccountId).Returns(true);
 
         //Act
         var result = await _validator.TestValidateAsync(command);
@@ -72,6 +69,22 @@ public sealed class RegisterTransferValidatorTests
         result.ShouldHaveValidationErrorFor(command => command.Value)
             .WithErrorCode("INVALID_VALUE")
             .WithErrorMessage("The value must be greater than or equal to zero.");
+    }
+
+    [Fact]
+    public async Task ShouldReturnInactiveAccountCode_WhenKeyIsInvalid()
+    {
+        //Arrange
+        var account = AccountTestData.CreateInactiveAccount();
+        var command = TransferTestData.CreateRegisterTransferCommandWithInvalidKey();
+
+        //Act
+        var result = await _validator.TestValidateAsync(command);
+
+        //Assert
+        result.ShouldHaveValidationErrorFor(command => command.Key)
+            .WithErrorCode("INVALID_KEY")
+            .WithErrorMessage("The key must not be empty.");
     }
 
     [Fact]
@@ -106,5 +119,28 @@ public sealed class RegisterTransferValidatorTests
         result.ShouldHaveValidationErrorFor(command => command.AccountId)
             .WithErrorCode("INACTIVE_ACCOUNT")
             .WithErrorMessage("The account is inactive.");
+    }
+
+    [Fact]
+    public async Task ShouldStopOnFirstError_WhenAccountThereAreMultipleErrorsInTheRequest()
+    {
+        //Arrange
+        var command = TransferTestData.CreateRegisterTransferCommandWithMultipleInvalidFields();
+
+        //Act
+        var result = await _validator.TestValidateAsync(command);
+
+        //Assert
+        result.ShouldHaveValidationErrorFor(command => command.Type)
+            .WithErrorCode("INVALID_TYPE")
+            .WithErrorMessage("The type must be 'C' or 'D'.");
+
+        await _accountRepository //CascadeMode.Stop avoids unecessary calls to database
+            .DidNotReceive()
+            .ExistsByIdAsync(Arg.Any<Guid>());
+
+        await _accountRepository
+            .DidNotReceive()
+            .GetByIdAsync(Arg.Any<Guid>());
     }
 }

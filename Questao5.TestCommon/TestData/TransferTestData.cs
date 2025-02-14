@@ -60,6 +60,26 @@ public static class TransferTestData
             .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
+    public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidKey()
+        => new Faker<RegisterTransferCommand>()
+            .UsePrivateConstructor()
+            .RuleFor(command => command.AccountId, f => f.Random.Guid())
+            .RuleFor(command => command.Key, Guid.Empty)
+            .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
+            .RuleFor(command => command.Type, f => f.PickRandom(ValidTransferTypes))
+            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
+            .Generate();
+
+    public static RegisterTransferCommand CreateRegisterTransferCommandWithMultipleInvalidFields()
+        => new Faker<RegisterTransferCommand>()
+            .UsePrivateConstructor()
+            .RuleFor(command => command.AccountId, Guid.Empty)
+            .RuleFor(command => command.Key, Guid.Empty)
+            .RuleFor(command => command.Value, f => f.Random.Decimal(-1000, -1))
+            .RuleFor(command => command.Type, f => f.PickRandom(InvalidTransferTypes))
+            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
+            .Generate();
+
     public static Transfer CreateCreditTransferForAccount(
         Guid accountId,
         bool useDefaultSeed = true)
