@@ -22,6 +22,11 @@ public sealed class RegisterTransferValidator : AbstractValidator<RegisterTransf
             .WithErrorCode("INVALID_VALUE")
             .WithMessage("The value must be greater than or equal to zero.");
 
+        RuleFor(command => command.Key)
+            .NotEmpty()
+            .WithErrorCode("INVALID_KEY")
+            .WithMessage("The key must not be empty.");
+
         RuleFor(command => command.AccountId)
             .MustAsync(async (accountId, _) =>
             {
