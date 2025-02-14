@@ -6,9 +6,10 @@ This is a .NET API designed to handle financial transfers and account balance qu
 * Account Balance: Retrieves the current balance of an account.
 * Idempotency: The Register Transfer endpoint is idempotent, ensuring repeated requests do not impact the financial balance of the account.
 * Comprehensive Error Handling: Detailed error responses for invalid inputs or account issues following standards standards from [Problem Details for HTTP APIs - RFC7807](https://datatracker.ietf.org/doc/html/rfc7807#section-3)
-* Swagger Documentation: Fully documented API endpoints for easy testing and integration.
+* Swagger Documentation: Fully documented API endpoints following proper HTTP response codes for easy testing and integration.
 * Integration and Unit Tests: Thorough test coverage for endpoints, services, validators, and handlers.
 * Global Exception Handling: Centralized exception handling for consistent error responses.
+* Verify Tests (xUnit): Leverage [Verify](https://github.com/VerifyTests/Verify) for integration tests to simplify result verification with snapshot-based testing, ensuring consistent and reliable outputs.
 
 # Technologies
 * .NET 8: The API has been upgraded to the latest Long-Term Support (LTS) version of .NET.
