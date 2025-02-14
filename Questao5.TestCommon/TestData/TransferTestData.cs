@@ -77,22 +77,4 @@ public static class TransferTestData
 
         return faker.Generate();
     }
-
-    public static Transfer CreateDebitTransferForAccount(
-        Guid accountId,
-        bool useDefaultSeed = true)
-    {
-        var faker = new Faker<Transfer>()
-            .UsePrivateConstructor()
-            .RuleFor(transfer => transfer.Id, f => f.Random.Guid())
-            .RuleFor(transfer => transfer.AccountId, accountId)
-            .RuleFor(transfer => transfer.Date, f => DateOnly.FromDateTime(f.Date.Past()))
-            .RuleFor(transfer => transfer.Type, _ => "D")
-            .RuleFor(transfer => transfer.Value, f => f.Random.Decimal(1, 1000));
-
-        if (useDefaultSeed)
-            faker.UseSeed(3);
-
-        return faker.Generate();
-    }
 }

@@ -7,21 +7,11 @@ namespace Questao5.TestCommon.TestData;
 
 public static class AccountTestData
 {
-    public static GetAccountBalanceQuery CreateGetAccountBalanceQuery(
-        Guid? accountId,
-        bool useDefaultSeed = true)
-    {
-        accountId ??= Guid.NewGuid();
-
-        var faker = new Faker<GetAccountBalanceQuery>()
+    public static GetAccountBalanceQuery CreateGetAccountBalanceQuery(Guid accountId)
+        => new Faker<GetAccountBalanceQuery>()
            .UsePrivateConstructor()
-           .RuleFor(query => query.AccountId, f => f.Random.Guid());
-
-        if (useDefaultSeed)
-            faker.UseSeed(12);
-
-        return faker.Generate();
-    }
+           .RuleFor(query => query.AccountId, accountId)
+           .Generate();
 
     public static GetAccountBalanceQuery CreateGetAccountBalanceQueryForInvalidAccount()
         => new Faker<GetAccountBalanceQuery>()

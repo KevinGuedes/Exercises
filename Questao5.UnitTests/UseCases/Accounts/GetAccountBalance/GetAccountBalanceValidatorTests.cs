@@ -22,7 +22,7 @@ public sealed class GetAccountBalanceValidatorTest
     {
         // Arrange
         var account = AccountTestData.CreateActiveAccount(false);
-        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id, false);
+        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id);
         _accountRepository.ExistsByIdAsync(query.AccountId).Returns(true);
         _accountRepository.GetByIdAsync(query.AccountId).Returns(account);
 
@@ -54,7 +54,7 @@ public sealed class GetAccountBalanceValidatorTest
     {
         // Arrange
         var account = AccountTestData.CreateInactiveAccount(false);
-        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id, false);
+        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id);
         _accountRepository.ExistsByIdAsync(query.AccountId).Returns(true);
         _accountRepository.GetByIdAsync(query.AccountId).Returns(account);
 

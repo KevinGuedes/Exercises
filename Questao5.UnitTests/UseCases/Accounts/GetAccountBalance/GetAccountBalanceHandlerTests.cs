@@ -22,7 +22,7 @@ public sealed class GetAccountBalanceHandlerTests
         //Arrange
         var expectedBalance = 1000;
         var account = AccountTestData.CreateActiveAccount(false);
-        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id, false);
+        var query = AccountTestData.CreateGetAccountBalanceQuery(account.Id);
 
         _accountRepository.GetByIdAsync(query.AccountId).Returns(account);
         _accountRepository.GetBalanceAsync(query.AccountId).Returns(expectedBalance);

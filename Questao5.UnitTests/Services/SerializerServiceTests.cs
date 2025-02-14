@@ -24,7 +24,7 @@ public sealed class SerializerServiceTests
             .RuleFor(command => command.Key, f => f.Random.Guid())
             .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
             .RuleFor(command => command.Type, f => f.PickRandom(_validTransferTypes))
-            .RuleFor(command => command.Date, _ => DateOnly.FromDateTime(DateTime.Parse("15/02/2024")))
+            .RuleFor(command => command.Date, DateOnly.FromDateTime(DateTime.Parse("15/02/2024")))
             .UseSeed(1)
             .Generate();
 
