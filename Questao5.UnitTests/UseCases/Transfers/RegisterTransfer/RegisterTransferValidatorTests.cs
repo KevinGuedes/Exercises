@@ -27,7 +27,7 @@ public sealed class RegisterTransferValidatorTests
 
         var transfer = new Transfer(
             command.AccountId,
-            command.Date,
+            DateOnly.FromDateTime(DateTime.UtcNow),
             command.Type,
             command.Value);
 
@@ -137,7 +137,6 @@ public sealed class RegisterTransferValidatorTests
 
         result.ShouldNotHaveValidationErrorFor(command => command.Value);
         result.ShouldNotHaveValidationErrorFor(command => command.AccountId);
-        result.ShouldNotHaveValidationErrorFor(command => command.Date);
         result.ShouldNotHaveValidationErrorFor(command => command.Key);
 
         await _accountRepository //CascadeMode.Stop avoids unecessary calls to database

@@ -20,7 +20,6 @@ public static class TransferTestData
             .UsePrivateConstructor()
             .RuleFor(command => command.AccountId, accountId)
             .RuleFor(command => command.Key, f => f.Random.Guid())
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .RuleFor(command => command.Type, f => f.PickRandom(ValidTransferTypes))
             .RuleFor(command => command.Value, f => f.Random.Decimal(1, 1000));
 
@@ -37,7 +36,6 @@ public static class TransferTestData
             .RuleFor(command => command.Key, f => f.Random.Guid())
             .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
             .RuleFor(command => command.Type, f => f.PickRandom(InvalidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
     public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidValue()
@@ -47,7 +45,6 @@ public static class TransferTestData
             .RuleFor(command => command.Key, f => f.Random.Guid())
             .RuleFor(command => command.Value, f => f.Random.Decimal(-1000, -1))
             .RuleFor(command => command.Type, f => f.PickRandom(ValidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
     public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidAccount()
@@ -57,7 +54,6 @@ public static class TransferTestData
             .RuleFor(command => command.Key, f => f.Random.Guid())
             .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
             .RuleFor(command => command.Type, f => f.PickRandom(ValidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
     public static RegisterTransferCommand CreateRegisterTransferCommandWithInvalidKey()
@@ -67,7 +63,6 @@ public static class TransferTestData
             .RuleFor(command => command.Key, Guid.Empty)
             .RuleFor(command => command.Value, f => f.Random.Decimal(0, 1000))
             .RuleFor(command => command.Type, f => f.PickRandom(ValidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
     public static RegisterTransferCommand CreateRegisterTransferCommandWithMultipleInvalidFields()
@@ -77,7 +72,6 @@ public static class TransferTestData
             .RuleFor(command => command.Key, Guid.Empty)
             .RuleFor(command => command.Value, f => f.Random.Decimal(-1000, -1))
             .RuleFor(command => command.Type, f => f.PickRandom(InvalidTransferTypes))
-            .RuleFor(command => command.Date, f => DateOnly.FromDateTime(f.Date.Past()))
             .Generate();
 
     public static Transfer CreateCreditTransferForAccount(

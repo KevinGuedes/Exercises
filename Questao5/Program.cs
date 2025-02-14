@@ -1,6 +1,7 @@
 using Dapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.OpenApi.Models;
 using Questao5.Application.RequestPipeline;
 using Questao5.Application.Services;
 using Questao5.Domain.Interfaces.Repositories;
@@ -37,7 +38,22 @@ builder.Services
     .AddSingleton<ISerializerService, SerializerService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(configuration =>
+{
+    configuration.EnableAnnotations();
+    configuration.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Financial API",
+        Description = "API for financial management",
+        Contact = new OpenApiContact
+        {
+            Name = "Kevin Santos Guedes",
+            Email = "kevinguedes1@gmail.com",
+            Url = new Uri("https://www.linkedin.com/in/kevinsantosguedes/")
+        }
+    });
+});
 
 var app = builder.Build();
 

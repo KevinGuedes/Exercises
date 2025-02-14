@@ -28,7 +28,7 @@ public sealed class RegisterTransferHandler(
 
         var transfer = new Transfer(
             command.AccountId,
-            command.Date,
+            DateOnly.FromDateTime(DateTime.UtcNow),
             command.Type,
             command.Value);
 

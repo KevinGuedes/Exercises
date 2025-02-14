@@ -59,7 +59,6 @@ public sealed class RegisterTransferHandlerTests
             .Received(1)
             .InsertAsync(Arg.Is<Transfer>(t =>
                 t.AccountId == command.AccountId &&
-                t.Date == command.Date &&
                 t.Type == command.Type &&
                 t.Value == command.Value));
     }

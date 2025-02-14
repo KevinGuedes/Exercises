@@ -6,7 +6,6 @@ public sealed class RegisterTransferCommand : ICommand<RegisterTransferResponse>
 {
     public Guid Key { get; init; }
     public Guid AccountId { get; init; }
-    public DateOnly Date { get; init; }
     public decimal Value { get; init; }
     public string Type { get; init; } = string.Empty;
 
@@ -17,11 +16,10 @@ public sealed class RegisterTransferCommand : ICommand<RegisterTransferResponse>
     {
     }
 
-    public RegisterTransferCommand(Guid key, Guid accountId, DateOnly date, decimal value, string type)
+    public RegisterTransferCommand(Guid key, Guid accountId, decimal value, string type)
     {
         Key = key;
         AccountId = accountId;
-        Date = date;
         Value = value;
         Type = type;
     }
